@@ -48,6 +48,10 @@
             <version>2.23.4</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- (optionnel mais recommandé) : ces 2 dépendances ne sont pas nécessaires,
+             car ce sont des plugins Maven déjà déclarés dans <build><plugins> -->
+        <!--
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -59,6 +63,7 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.0.0</version>
         </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -87,17 +92,12 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- ✅ Mise à jour Surefire (compatible Java 21 + JUnit 5 sans provider) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.2.0</version>
-                    </dependency>
-                </dependencies>
+                <version>3.5.4</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*IT.java</exclude>
@@ -121,10 +121,12 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- ✅ Mise à jour JaCoCo -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <goals>
