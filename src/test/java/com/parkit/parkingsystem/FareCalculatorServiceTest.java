@@ -151,5 +151,62 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
         assertEquals( (0.0) , ticket.getPrice());
     }
+    
+    @Test
+    public void calculateFareCarWithDiscount() {
+    	Date inTime = new Date(System.currentTimeMillis() - (60 * 60 * 1000)); // 1h
+        Date outTime = new Date();
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket,true);
+
+        double expected = Fare.CAR_RATE_PER_HOUR * 1 * 0.95;
+        assertEquals(expected, ticket.getPrice(), 0.01);
+    }
+    
+    @Test
+    public void calculateFareBikeWithDiscount() {
+        Date inTime = new Date(System.currentTimeMillis() - (60 * 60 * 1000)); // 1h
+        Date outTime = new Date();
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+
+        fareCalculatorService.calculateFare(ticket,true);
+
+        double expected = Fare.BIKE_RATE_PER_HOUR * 1 * 0.95;
+        assertEquals(expected, ticket.getPrice(), 0.01);
+    }
+    
+    @Test
+    public void calculateFareCarRecurringUserGetsDiscount() {
+        // 1) Durée > 30 minutes (ex : 1 heure)
+        Date inTime = new Date(System.currentTimeMillis() - (60 * 60 * 1000));
+        Date outTime = new Date();
+
+        // 2) Création d’une place CAR
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+        // 3) Création du ticket
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+
+        // 4) Appel avec discount = true (utilisateur déjà venu)
+        fareCalculatorService.calculateFare(ticket, true);
+
+        // 5) Tarif attendu : 95 % du tarif plein
+        double expectedPrice = Fare.CAR_RATE_PER_HOUR * 1 * 0.95 ;
+
+        // 6) Vérification
+        assertEquals(expectedPrice, ticket.getPrice(), 0.01);
+    }
 
 }
