@@ -117,6 +117,6 @@ public class ParkingDataBaseIT {
 		double durationHours = (ticket.getOutTime().getTime() - ticket.getInTime().getTime()) / (1000.0 * 60 * 60);
 		double expected = durationHours * Fare.CAR_RATE_PER_HOUR * 0.95;
 
-		assertEquals(expected, ticket.getPrice(), 0.1, "Le prix doit inclure la remise 5%");
+		assertEquals(expected, ticket.getPrice(), 0.01, "Le prix doit inclure la remise 5%");
 	}
 }
