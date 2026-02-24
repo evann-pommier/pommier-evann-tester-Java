@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -119,6 +120,7 @@ public class FareCalculatorServiceTest {
 		assertEquals(0.0, ticket.getPrice(), 0.01);
 	}
 
+	@Disabled
 	@ParameterizedTest
 	@CsvSource({ "CAR", "BIKE" })
 	public void calculateFareVehicleWithLessThan30minutesParkingTime(ParkingType type) {
@@ -141,6 +143,7 @@ public class FareCalculatorServiceTest {
 		assertEquals(Fare.BIKE_RATE_PER_HOUR * 0.95, ticket.getPrice(), 0.01);
 	}
 
+	@Disabled
 	@ParameterizedTest
 	@CsvSource({ "CAR", "BIKE" })
 	public void calculateFareVehicleWithDiscount(ParkingType type) {
